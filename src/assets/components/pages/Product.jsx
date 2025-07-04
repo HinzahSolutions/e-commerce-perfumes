@@ -58,8 +58,8 @@ function Product() {
     </Typography>
 
     <Box className="flex gap-4">
-      <Typography variant='' className=" text-md lg:text-2xl font-bold text-gray-300 line-through">6.500 KD</Typography>
-      <Typography variant='' className="text-md lg:text-2xl font-bold text-red-400">3.900 KD</Typography>
+      <Typography variant='' className=" text-md lg:text-2xl font-bold text-gray-300 line-through">6.500</Typography>
+      <Typography variant='' className="text-md lg:text-2xl font-bold text-red-400">3.900 </Typography>
     </Box>
 
     <Typography variant=''  className="lg:text-base font-medium text-xs  lg:font-medium text-gray-500">
@@ -103,6 +103,8 @@ function Product() {
     </Box>
   </Box>
 </Box>
+
+
             <Box  sx={{textAlign: 'center', }}>
                 <Box className="p-10" >
                     <Typography variant='' className="text-sm font-medium p-5" > Related products</Typography>

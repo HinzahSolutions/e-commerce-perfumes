@@ -12,15 +12,24 @@ import Brands from './assets/components/pages/Brands'
 import LoginPage from './assets/components/pages/LoginPage'
 import SignupPage from './assets/components/pages/SignupPage'
 import Profile from './assets/components/pages/Profile'
+import Fooder from './assets/components/pages/Fooder'
+import Addcard from './assets/components/pages/Addcard'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-        <BrowserRouter>
-          <Navbars/>
+    <> 
+    
+      <div  className='w-full h-39 '>
+      <div  className='position: fixed w-full z-1 '>
+         <Navbars/>
+        </div> 
+        </div>
+       
+         
        <Routes>
+      
              <Route path='/' element={<Home />} />
              <Route path='/product' element={<Product />} /> 
              <Route path='/filterproduct' element={<FilterProduct/>} />
@@ -29,8 +38,13 @@ function App() {
               <Route  path='/login' element={<LoginPage />} />
               <Route  path='/signup' element={<SignupPage />} />
               <Route  path='/profile' element={<Profile />} />
+                <Route  path='/addcard' element={<Addcard />} />
+                
         </Routes>
-        </BrowserRouter>
+       <div  className="h-fit">
+           <Fooder />
+           </div>
+      
        
         
     </>

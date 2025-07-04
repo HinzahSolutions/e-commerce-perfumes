@@ -1,7 +1,7 @@
 
 
 
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, } from 'react';
 import {
   AppBar, Toolbar, Box, Typography, IconButton, InputBase,
   Menu, MenuItem, Grid, Button, Divider, Drawer, List, ListItem, ListItemText,
@@ -20,11 +20,12 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { useTheme } from '@mui/material/styles';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { useLocation } from 'react-router-dom';
+import { useLocation,} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const categories = [
   { label:'HOME', submenu:[], likes:'/'},
-  { label: 'PERFUMES', submenu: ['Women', 'Men', 'Shop'], likes: '' },
+  { label: 'PERFUMES', submenu: ['Women', 'Men', 'Shop'], likes: '/filterproduct' },
   { label: 'BRANDS', submenu: [], likes: '/product' },
   { label: 'SKINCARE', submenu: [], likes: '' },
   { label: 'MAKEUP', submenu: [], likes: '' },
@@ -34,12 +35,18 @@ const categories = [
   { label: 'GIFTS', submenu: [], likes: '' }
 ];
 
+
+
+
+
+
 export default function Navbars() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   console.log(isMobile)
-
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
+   const [anchorE2, setAnchorE2] = useState(null);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileSubmenus, setMobileSubmenus] = useState({});
@@ -54,6 +61,11 @@ export default function Navbars() {
     setAnchorEl(null);
     setSelectedMenu(null);
   };
+
+  const handleClicknav =(name) =>{
+  navigate(`/filterproduct?name=${encodeURIComponent(name)}`)
+  
+}
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
@@ -83,7 +95,7 @@ export default function Navbars() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+const handleClose = () => {
     setAnchorEl(null);
   };
 
@@ -92,13 +104,13 @@ const isHomePage = location.pathname === '/';
 
 
   return (
-    <>
+   
     
-    
+   <div className="p-0 m-0 h-40 w-full" >
   <AppBar position="sticky" sx={{ bgcolor: '#4b215f', height: 30 }}>
     <Toolbar sx={{ minHeight: '30px !important', justifyContent: "space-between" }}>
       <Typography variant="caption" color="#fff">
-        🔥 Only 11 days left until VALENTINE'S DAY! 🔥
+        🔥 Only 11 days left untilOffer day! 🔥
       </Typography>
       {!isMobile && (
         <Box display="flex" gap={2}>
@@ -121,7 +133,7 @@ const isHomePage = location.pathname === '/';
               </IconButton>
             ) : (
               <Typography variant="h6" sx={{ color: '#4b215f', fontWeight: 'bold' }}>
-                PerfumeShop.com
+               Sartaj-Perfume.com
               </Typography>
             )}
             {!isMobile && (
@@ -160,13 +172,14 @@ const isHomePage = location.pathname === '/';
                   anchorOrigin={{
                     vertical: 'top',
                     horizontal: 'right',
+                    zIndex:''
                   }}
                   keepMounted
                   transformOrigin={{
                     vertical: 'top',
                     horizontal: 'right',
                   }}
-                  open={Boolean(anchorEl)}
+                   open={Boolean(anchorEl)}
                   onClose={handleClose} 
                 >
                   <MenuItem component='a' href='/login'  >Login</MenuItem>
@@ -176,7 +189,7 @@ const isHomePage = location.pathname === '/';
                 </Menu>
               </div>
               <IconButton><FavoriteBorderIcon /></IconButton>
-              <IconButton>
+              <IconButton onClick={() => navigate('/addcard')} >
                 <ShoppingCartIcon />
                 {!isMobile && (<Typography variant="caption">2 items</Typography>)}
 
@@ -191,7 +204,7 @@ const isHomePage = location.pathname === '/';
       
         {!isMobile && (
           <AppBar position="sticky" color="default" elevation={1}>
-            <Toolbar sx={{ gap: 2, justifyContent: 'center',bgcolor:'#f5edfa' }}>
+            {/* <Toolbar sx={{ gap: 2, justifyContent: 'center',bgcolor:'#f5edfa' }}>
               {categories.map((cat) => (
                 <Button
                   key={cat.label}
@@ -222,7 +235,48 @@ const isHomePage = location.pathname === '/';
                   {cat.label}
                 </Button>
               ))}
-            </Toolbar>
+            </Toolbar> */}
+             <Toolbar sx={{ gap: 2, justifyContent: 'center', bgcolor: '#f5edfa' }}>
+      {categories.map((cat) => {
+        const isActive = location.pathname === cat.likes;
+
+        return (
+          <Button
+            key={cat.label}
+            onClick={(e) => {
+            
+              navigate(cat.likes);
+            }}
+            color="secondary"
+            sx={{
+              fontWeight: isActive ? 'bold' : 'bold;',
+              textTransform: 'none',
+              color: isActive ? 'secondery' : 'inherit',
+              position: 'relative',
+              overflow: 'hidden',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                left: 0,
+                bottom: 0,
+                height: '2px',
+                width: '100%',
+                backgroundColor: isActive ? '#000' : 'transparent',
+                transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
+                transformOrigin: 'left',
+                transition: 'transform 0.3s ease-in-out, background-color 0.3s',
+              },
+              '&:hover::after': {
+                transform: 'scaleX(1)',
+                backgroundColor: '#000',
+              }
+            }}
+          >
+            {cat.label}
+          </Button>
+        );
+      })}
+    </Toolbar>
 
 
 
@@ -252,7 +306,7 @@ const isHomePage = location.pathname === '/';
         )}
 
 
-        <Box
+        {/* <Box
           onMouseEnter={(e) => handleOpenMenu(e, 'PERFUMES')}
           onMouseLeave={handleCloseMenu}
           sx={{ display: 'inline-block' }}
@@ -263,8 +317,8 @@ const isHomePage = location.pathname === '/';
             anchorEl={anchorEl}
             open={Boolean(anchorEl && selectedMenu === 'PERFUMES')}
             onClose={handleCloseMenu}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'center' }}
             MenuListProps={{ disablePadding: true }}
             PaperProps={{
               sx: {
@@ -277,7 +331,7 @@ const isHomePage = location.pathname === '/';
               <Grid container spacing={2}>
                 <Grid item xs={4}>
                   <Typography variant="subtitle1" color="secondary" >WOMEN</Typography>
-                  <MenuItem>Perfume</MenuItem>
+                  <MenuItem onClick={() => handleClicknav("women")}>Perfume</MenuItem>
                   <MenuItem>Bath & Body</MenuItem>
                   <MenuItem>Gift Sets</MenuItem>
                   <MenuItem>Unboxed/Testers</MenuItem>
@@ -285,7 +339,7 @@ const isHomePage = location.pathname === '/';
                 </Grid>
                 <Grid item xs={4}>
                   <Typography variant="subtitle1" color="secondary" >MEN</Typography>
-                  <MenuItem>Cologne</MenuItem>
+                  <MenuItem onClick={() => handleClicknav("men")}>Perfume</MenuItem>
                   <MenuItem>Bath & Body</MenuItem>
                   <MenuItem>Aftershave</MenuItem>
                   <MenuItem>Gift Sets</MenuItem>
@@ -304,7 +358,7 @@ const isHomePage = location.pathname === '/';
               <Button variant="outlined" fullWidth color="secondary" >SHOP ALL</Button>
             </Box>
           </Menu>
-        </Box>
+        </Box> */}
 
 
         
@@ -370,7 +424,8 @@ const isHomePage = location.pathname === '/';
       )}
         
       </Box>
-    </>
+      </div> 
+    
   );
 }
 
